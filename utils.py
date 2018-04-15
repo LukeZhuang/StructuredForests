@@ -39,7 +39,7 @@ def conv_tri(src, radius):
                                borderType=cv2.BORDER_REFLECT)
     else:
         radius = int(radius)
-        kernel = range(1, radius + 1) + [radius + 1] + range(radius, 0, -1)
+        kernel = list(range(1, radius + 1)) + [radius + 1] + list(range(radius, 0, -1))
         kernel = N.asarray(kernel, dtype=N.float64) / (radius + 1) ** 2
         return cv2.sepFilter2D(src, ddepth=-1, kernelX=kernel, kernelY=kernel,
                                borderType=cv2.BORDER_REFLECT)
@@ -58,7 +58,7 @@ def rgb2luv(src):
     y0 = 8.0 / a
     maxi = 1.0 / 270
 
-    table = [i / 1024.0 for i in xrange(1025)]
+    table = [i / 1024.0 for i in range(1025)]
     table = [116 * y ** (1.0 / 3.0) - 16 if y > y0 else y * a for y in table]
     table = [l * maxi for l in table]
     table += [table[-1]] * 39
@@ -93,7 +93,7 @@ def gradient(src, norm_radius=0, norm_const=0.01):
 
     dx = N.zeros(src.shape, dtype=src.dtype)
     dy = N.zeros(src.shape, dtype=src.dtype)
-    for i in xrange(src.shape[2]):
+    for i in range(src.shape[2]):
         dy[:, :, i], dx[:, :, i] = N.gradient(src[:, :, i])
 
     magnitude = N.sqrt(dx ** 2 + dy ** 2)

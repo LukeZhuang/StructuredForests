@@ -5,12 +5,12 @@
 *******************************************************************************/
 
 #include <cstring>
-#include <cstdint>
+#include <stdint.h>
 #include <cmath>
 #include <iostream>
 using namespace std;
 
-#include "_random_forests.h"
+#include "/Users/lukezhuang/Desktop/git/cogs260/hw1/Project1/StructuredForests/_random_forests.h"
 
 #define gini(p) p*p
 #define entropy(p) (-p*flog2(float(p)))

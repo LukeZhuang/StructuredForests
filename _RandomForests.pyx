@@ -7,7 +7,7 @@ ctypedef np.int32_t INT32
 ctypedef np.float32_t FLOAT32
 
 
-cdef extern from "_random_forests.h":
+cdef extern from "/Users/lukezhuang/Desktop/git/cogs260/hw1/Project1/StructuredForests/_random_forests.h":
     void forestFindThr(int H, int N, int F, const FLOAT32 *data, const INT32 *hs,
                        const float* ws, const INT32 *order, const int split,
                        int &fid, float &thr, double &gain) except +
