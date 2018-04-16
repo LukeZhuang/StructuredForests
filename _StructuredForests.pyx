@@ -11,24 +11,24 @@ ctypedef N.float64_t C_FLOAT64
 
 
 def build_feature_table(shrink, p_size, n_cell, n_ch):
-    p_size /= shrink
+    p_size = p_size//shrink
 
     reg_tb = []
-    for i in xrange(p_size):
-        for j in xrange(p_size):
-            for k in xrange(n_ch):
+    for i in range(p_size):
+        for j in range(p_size):
+            for k in range(n_ch):
                 reg_tb.append([i, j, k])
 
     half_cell_size = int(round(p_size / (2.0 * n_cell)))
     grid_pos = [int(round((i + 1) * (p_size + 2 * half_cell_size - 1) / \
                           (n_cell + 1.0) - half_cell_size))
-                for i in xrange(n_cell)]
+                for i in range(n_cell)]
     grid_pos = [(r, c) for r in grid_pos for c in grid_pos]
 
     ss_tb = []
-    for i in xrange(n_cell ** 2):
-        for j in xrange(i + 1, n_cell ** 2):
-            for z in xrange(n_ch):
+    for i in range(n_cell ** 2):
+        for j in range(i + 1, n_cell ** 2):
+            for z in range(n_ch):
                 x1, y1 = grid_pos[i]
                 x2, y2 = grid_pos[j]
                 ss_tb.append([x1, y1, x2, y2, z])
@@ -96,9 +96,9 @@ def build_neigh_table(g_size):
     dir_x = N.asarray([1, 1, -1, -1], dtype=N.int32)
     dir_y = N.asarray([1, -1, 1, -1], dtype=N.int32)
 
-    for i in xrange(g_size):
-        for j in xrange(g_size):
-            for k in xrange(4):
+    for i in range(g_size):
+        for j in range(g_size):
+            for k in range(4):
                 r = min(max(dir_x[k] + i, 0), g_size - 1)
                 c = min(max(dir_y[k] + j, 0), g_size - 1)
                 tb[i, j, k] = [r, c]
@@ -228,9 +228,9 @@ def predict_core(N.ndarray[C_FLOAT64, ndim=3] src,
     if sharpen == 0:
         dst = N.zeros((src.shape[0], src.shape[1]), dtype=N.float64)
 
-        for i in xrange(0, src.shape[0] - p_size, stride):
-            for j in xrange(0, src.shape[1] - p_size, stride):
-                for k in xrange(n_tree_eval):
+        for i in range(0, src.shape[0] - p_size, stride):
+            for j in range(0, src.shape[1] - p_size, stride):
+                for k in range(n_tree_eval):
                     leaf_idx = lids[i, j, k]
 
                     begin = edge_bnds[leaf_idx * n_bnd]
@@ -238,7 +238,7 @@ def predict_core(N.ndarray[C_FLOAT64, ndim=3] src,
                     if begin == end:
                         continue
 
-                    for m in xrange(begin, end):
+                    for m in range(begin, end):
                         loc = edge_pts[m]
                         x1 = loc / g_size + i
                         y1 = loc % g_size + j
